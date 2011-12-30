@@ -11,6 +11,11 @@
   <property name="libfile" value="iprops" />
 
   <property file="build.properties" />
+  
+  <!-- 各ビルド用のincludepathを設定する -->
+  <path id="libfile.includepath">
+    <pathelement path="${srcdir}" />
+  </path>
 
   <!-- ##### prepare target ##### -->
   <target name="prepare">
@@ -28,10 +33,10 @@
   <target name="compile">
     <echo>----- Compile all targets !!</echo>
     <echo>----- Try to compile libiprops.a ...</echo>
-    <antcall target="compile_lib">
-      <param name="DDEBUG" value="-DDEBUG" />
-      <param name="use_debug_info" value="true" />
-      <param name="optimize_level" value="none" />
+    <antcall target="compile.lib">
+      <param name="use.macro.DEBUG" value="true" />
+      <param name="use.debug.info" value="true" />
+      <param name="optimize.level" value="none" />
       <param name="warnings_level" value="diagnostic" />
     </antcall>
     <echo>----- Compiled libi2d.a !</echo>
@@ -42,10 +47,9 @@
   <target name="release">
     <echo>----- Release all targets !!</echo>
     <echo>----- Try to compile libiprops.a ...</echo>
-    <antcall target="compile_lib">
-      <param name="DDEBUG" value="-DDEBUG_DUMMY" />
-      <param name="use_debug_info" value="false" />
-      <param name="optimize_level" value="extreme" />
+    <antcall target="compile.lib">
+      <param name="use.debug.info" value="false" />
+      <param name="optimize.level" value="extreme" />
       <param name="warnings_level" value="production" />
     </antcall>
     <echo>----- Compiled libi2d.a !</echo>
@@ -53,16 +57,18 @@
   </target>
 
   <!-- ##### compile lib target ##### -->
-  <target name="compile_lib" depends="prepare">
+  <target name="compile.lib" depends="prepare">
     <cpptasks:cc outtype="static"
                  outfile="${libdir}/${libfile}"
                  objdir="${objdir}"
-                 optimize="${optimize_level}"
-                 debug="${use_debug_info}"
+                 optimize="${optimize.level}"
+                 debug="${use.debug.info}"
                  warnings="${warnings_level}">
-      <cpptasks:compilerarg value="-I${srcdir}" />
       <cpptasks:compilerarg value="-std=c99" />
-      <cpptasks:compilerarg value="${DDEBUG}" />
+      <cpptasks:defineset define="DEBUG" if="use.macro.DEBUG" />
+      <cpptasks:includepath>
+        <path refid="libfile.includepath" />
+      </cpptasks:includepath>
       <fileset dir="${srcdir}" includes="*.c" excludes="*.h" />
     </cpptasks:cc>
   </target>

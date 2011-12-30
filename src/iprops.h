@@ -13,7 +13,7 @@
 
 // IPROPS constants
 #define IPROPS_VERSION 1.0
-#define IPROPS_HEADER_VERSION_CHARS "#IPROPS Version %lf\n"
+#define IPROPS_HEADER_VERSION_CHARS "#IPROPS Version %1.1f\n"
 #define IPROPS_HEADER_VERSION_CHARS_WITHOUT_FORMAT "#IPROPS Version"
 #define IPROPS_HEADER_NPROPS_CHARS "#NPROPS %d\n"
 #define IPROPS_HEADER_NPROPS_CHARS_WITHOUT_FORMAT "#NPROPS"
@@ -27,6 +27,10 @@ typedef struct InputProperties {
   char** values;
 } iprops_t;
 
-
+extern iprops_t *IPROPS_load(const char * const);
+extern void IPROPS_free(iprops_t *);
+extern char *IPROPS_read(const iprops_t * const, const char * const);
+extern double IPROPS_readf(const iprops_t * const, const char * const);
+extern int IPROPS_readi(const iprops_t * const, const char * const);
 
 #endif

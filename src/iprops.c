@@ -15,7 +15,7 @@
 /**
  * IPROPS load function
  */
-iprops_t *IPROPS_load(const char * const filename) {
+extern iprops_t *IPROPS_load(const char * const filename) {
   printf("\n### IPROPS Load Begin\n");
   iprops_t *iprops = NULL;
 
@@ -96,7 +96,7 @@ iprops_t *IPROPS_load(const char * const filename) {
  * IPROPS free function
  * !!! required to be called after end of use IPROPS !!!
  */
-void IPROPS_free(iprops_t *iprops) {
+extern void IPROPS_free(iprops_t *iprops) {
   printf("\n### IPROPS Free Begin\n");
   free(iprops->values);
   printf("# free iprops->values\n");
@@ -110,7 +110,7 @@ void IPROPS_free(iprops_t *iprops) {
 /**
  * IPROPS read function
  */
-char *IPROPS_read(const iprops_t * const iprops, const char * const key) {
+extern char *IPROPS_read(const iprops_t * const iprops, const char * const key) {
   char* value = NULL;
   for (int i = 0; i < iprops->nProps; i++) {
     if (!strncmp(key, iprops->keys[i], strlen(key))) {
@@ -124,7 +124,8 @@ char *IPROPS_read(const iprops_t * const iprops, const char * const key) {
 /**
  * IPROPS read as double function
  */
-double IPROPS_readf(const iprops_t * const iprops, const char * const key) {
+extern double IPROPS_readf(const iprops_t * const iprops,
+    const char * const key) {
   char *tvalue = NULL;
   double value = 0.0;
   tvalue = IPROPS_read(iprops, key);
@@ -137,7 +138,7 @@ double IPROPS_readf(const iprops_t * const iprops, const char * const key) {
 /**
  * IPROPS read as int function
  */
-int IPROPS_readi(const iprops_t * const iprops, const char * const key) {
+extern int IPROPS_readi(const iprops_t * const iprops, const char * const key) {
   char *tvalue = NULL;
   int value = 0;
   tvalue = IPROPS_read(iprops, key);

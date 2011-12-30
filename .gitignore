@@ -1,0 +1,5 @@
+bin
+lib
+.obj
+build.properties
+.project

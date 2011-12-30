@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="IPROPS"
+         default="compile"
+         xmlns:cpptasks="antlib:net.sf.antcontrib.cpptasks">
+
+  <property name="srcdir" value="${basedir}/src" />
+
+  <property name="objdir" value=".obj" />
+  <property name="libdir" value="lib" />
+
+  <property name="libfile" value="iprops" />
+
+  <property file="build.properties" />
+
+  <!-- ##### prepare target ##### -->
+  <target name="prepare">
+    <mkdir dir="${objdir}" />
+    <mkdir dir="${libdir}" />
+  </target>
+
+  <!-- ##### clean target ##### -->
+  <target name="clean">
+    <delete dir="${objdir}" />
+    <delete dir="${libdir}" />
+  </target>
+
+  <!-- ##### compile all target ##### -->
+  <target name="compile">
+    <echo>----- Compile all targets !!</echo>
+    <echo>----- Try to compile libiprops.a ...</echo>
+    <antcall target="compile_lib">
+      <param name="DDEBUG" value="-DDEBUG" />
+      <param name="use_debug_info" value="true" />
+      <param name="optimize_level" value="none" />
+      <param name="warnings_level" value="diagnostic" />
+    </antcall>
+    <echo>----- Compiled libi2d.a !</echo>
+    <echo>----- Finish all targets !!</echo>
+  </target>
+
+  <!-- ##### release all target (no debug info, aggressive optimization) ##### -->
+  <target name="release">
+    <echo>----- Release all targets !!</echo>
+    <echo>----- Try to compile libiprops.a ...</echo>
+    <antcall target="compile_lib">
+      <param name="DDEBUG" value="-DDEBUG_DUMMY" />
+      <param name="use_debug_info" value="false" />
+      <param name="optimize_level" value="extreme" />
+      <param name="warnings_level" value="production" />
+    </antcall>
+    <echo>----- Compiled libi2d.a !</echo>
+    <echo>----- Finish all targets !!</echo>
+  </target>
+
+  <!-- ##### compile lib target ##### -->
+  <target name="compile_lib" depends="prepare">
+    <cpptasks:cc outtype="static"
+                 outfile="${libdir}/${libfile}"
+                 objdir="${objdir}"
+                 optimize="${optimize_level}"
+                 debug="${use_debug_info}"
+                 warnings="${warnings_level}">
+      <cpptasks:compilerarg value="-I${srcdir}" />
+      <cpptasks:compilerarg value="-std=c99" />
+      <cpptasks:compilerarg value="${DDEBUG}" />
+      <fileset dir="${srcdir}" includes="*.c" excludes="*.h" />
+    </cpptasks:cc>
+  </target>
+
+</project>

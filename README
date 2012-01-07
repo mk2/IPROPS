@@ -4,6 +4,7 @@ IPROPS - Input PROPerties System for C99
 javaのプロパティーズに似たものをC99で実装したものです。
 
 2. コンパイル方法
-ant1.6以上、JDK1.6以上が必要となります。
-$ ant -lib antlib
-でlibiprops.aが出来上がるので、後はヘッダーファイルとともに使います。
+$ cd src
+でソースディレクトリに移動後、
+$ make
+でルートディレクトリ直下にbin/libiprops.aが出来上がります。

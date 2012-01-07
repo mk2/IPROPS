@@ -1,5 +1,5 @@
 bin
-lib
-.obj
-build.properties
 .project
+.cproject
+*.c
+*.d

@@ -5,6 +5,7 @@ TARGET = ../bin/libiprops.a
 CFLAGS = -std=c99 -g -Wall -O2 -DDEBUG -I.
 
 $(TARGET): iprops.o
+	- mkdir ../bin
 	ar r $@ $?
 
 iprops.o: iprops.c iprops.h
